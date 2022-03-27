@@ -4,15 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    android:padding="16dp"
+    >
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/texto_x"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/fuerza_en_x"
+        android:textSize="25px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+    <TextView
+        android:id="@+id/texto_y"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fuerza_en_y"
+        android:textSize="25px"
+        app:layout_constraintTop_toBottomOf="@id/texto_x"
+    />
+    <TextView
+        android:id="@+id/texto_z"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fuerza_en_z"
+        android:textSize="25px"
+        app:layout_constraintTop_toBottomOf="@id/texto_y"
+    />
     
 </androidx.constraintlayout.widget.ConstraintLayout>
