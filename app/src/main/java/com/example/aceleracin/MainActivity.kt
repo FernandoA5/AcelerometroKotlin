@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
 import com.example.aceleracin.databinding.ActivityMainBinding
+import java.io.File
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         //SI AGREGAMOS UN BOTON
         //binding.calculateButton.setOnClickListener { boton() }
         setUpSensorStuff()
+        guardar("Holi <3")
     }
     private fun setUpSensorStuff()
     {
@@ -43,6 +45,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onDestroy() {
         sensorManager.unregisterListener(this)
         super.onDestroy()
+    }
+    fun guardar(texto: String){
+        val rutaSD = baseContext.getExternalFilesDir(null)?.absolutePath
+        val miCarpeta= File(rutaSD, "MisDatos")
+        if(!miCarpeta.exists()){
+            miCarpeta.mkdir()
+        }
+        val ficheroFisico = File(miCarpeta, "Datos.txt")
+        ficheroFisico.appendText("$texto\n")
+
     }
 }
 
