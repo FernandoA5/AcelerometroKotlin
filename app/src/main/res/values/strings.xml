@@ -3,4 +3,5 @@
     <string name="fuerza_en_x">Fuerza en X: %s</string>
     <string name="fuerza_en_y">Fuerza en Y: %s</string>
     <string name="fuerza_en_z">Fuerza en Z: %s</string>
+    <string name="texto_archivo">Texto_archivo: %s</string>
 </resources>

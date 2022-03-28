@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
 import com.example.aceleracin.databinding.ActivityMainBinding
+import java.io.BufferedReader
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -21,8 +24,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setContentView(binding.root)
         //SI AGREGAMOS UN BOTON
         //binding.calculateButton.setOnClickListener { boton() }
-        setUpSensorStuff()
         guardar("Holi <3")
+
+        binding.readFile.text = getString(R.string.texto_archivo, cargar())
+
+        setUpSensorStuff()
+
     }
     private fun setUpSensorStuff()
     {
@@ -32,7 +39,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
     override fun onSensorChanged(event: SensorEvent?) {
-        val stringX = binding.textoX.text.toString()
+        //val stringX = binding.textoX.text.toString()
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER){
             binding.textoX.text= getString(R.string.fuerza_en_x, event.values[0].toString())
             binding.textoY.text= getString(R.string.fuerza_en_y, event.values[1].toString())
@@ -54,7 +61,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
         val ficheroFisico = File(miCarpeta, "Datos.txt")
         ficheroFisico.appendText("$texto\n")
+    }
+    fun cargar():String{
+        val rutaSD = baseContext.getExternalFilesDir(null)?.absolutePath
+        val miCarpeta = File(rutaSD, "MisDatos")
+        val ficheroFisico = File(miCarpeta, "Datos.txt")
+        val fichero = BufferedReader(InputStreamReader(FileInputStream(ficheroFisico)))
+        //val texto = fichero.use(BufferedReader::readText)
 
+        return "HOLA"
     }
 }
 
