@@ -35,7 +35,7 @@
         android:id="@+id/text_box"
         android:layout_width="match_parent"
         android:layout_height="400px"
-        android:hint="Ingresa tu Texto"
+        android:hint="Ingresa tu Texto aquí. Inclina a la izquiera para guardar, a la derecha para borrar el archivo, hacia atrás para editar, y hacia adelante para limpiar el text box"
         app:layout_constraintTop_toBottomOf="@id/texto_z"
     />
     <TextView

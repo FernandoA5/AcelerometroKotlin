@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var guardado=0;
     private var borrado=0;
     private var editado=0
+    private var editando=0
+    private val accionar=5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,23 +45,40 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             binding.textoY.text= getString(R.string.fuerza_en_y, event.values[1].toString())
             binding.textoZ.text= getString(R.string.fuerza_en_z, event.values[2].toString())
 
-            var x_centrado = event.values[0] <= 1.0 && event.values[0] >=-1.0
-            var z_centrado = event.values[2] <= 1.0 && event.values[2] >= -1.0
+            val x_centrado = event.values[0] <= 2.0 && event.values[0] >=-2.0
+            val z_centrado = event.values[2] <= 2.0 && event.values[2] >= -2.0
+            val vacio = (binding.textBox.text.toString() == " " || binding.textBox.text.toString() =="")
             if(guardado==0 && borrado==0 && editado ==0)
             {
-                if (event.values[0] >= 4.0 && z_centrado){
+                //GUARDAR
+                if (event.values[0] >= accionar && z_centrado && !vacio){
+                    if(editando==1){
+                        borrar()
+                        editando=0
+                    }
                     guardar(binding.textBox.text.toString())
+                    binding.textBox.text= Editable.Factory.getInstance().newEditable("")
                     binding.readFile.text=getString(R.string.texto_archivo, cargar())
                     guardado=1
                 }
-                if(event.values[0] <=  -4.0 && z_centrado){
+                //BORRAR
+                if(event.values[0] <=  -accionar && z_centrado){
                     borrar()
                     binding.readFile.text=getString(R.string.texto_archivo, cargar())
                     borrado=1
                 }
-                if(event.values[2] >=4.0 || event.values[2] <= -4.0 && x_centrado)
+                //EDITAR
+                if(event.values[2] >=accionar && x_centrado)
                 {
                     binding.textBox.text= Editable.Factory.getInstance().newEditable(cargar())
+                    editado=1
+                    editando=1
+                }
+                //LIMPIAR TEXTBOX
+                if(event.values[2] <= -accionar  && x_centrado)
+                {
+                    binding.textBox.text= Editable.Factory.getInstance().newEditable("")
+                    editado=1
                 }
             }
             if(x_centrado && z_centrado){
