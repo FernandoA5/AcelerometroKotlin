@@ -7,6 +7,7 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Toast
 import com.example.aceleracin.databinding.ActivityMainBinding
 import java.io.*
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private var guardado=0;
     private var borrado=0;
+    private var editado=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,22 +42,30 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             binding.textoX.text= getString(R.string.fuerza_en_x, event.values[0].toString())
             binding.textoY.text= getString(R.string.fuerza_en_y, event.values[1].toString())
             binding.textoZ.text= getString(R.string.fuerza_en_z, event.values[2].toString())
-            if(guardado==0 && borrado==0)
+
+            var x_centrado = event.values[0] <= 1.0 && event.values[0] >=-1.0
+            var z_centrado = event.values[2] <= 1.0 && event.values[2] >= -1.0
+            if(guardado==0 && borrado==0 && editado ==0)
             {
-                if (event.values[0] >= 4.0){
+                if (event.values[0] >= 4.0 && z_centrado){
                     guardar(binding.textBox.text.toString())
                     binding.readFile.text=getString(R.string.texto_archivo, cargar())
                     guardado=1
                 }
-                if(event.values[0] <=  -4.0 ){
+                if(event.values[0] <=  -4.0 && z_centrado){
                     borrar()
                     binding.readFile.text=getString(R.string.texto_archivo, cargar())
                     borrado=1
                 }
+                if(event.values[2] >=4.0 || event.values[2] <= -4.0 && x_centrado)
+                {
+                    binding.textBox.text= Editable.Factory.getInstance().newEditable(cargar())
+                }
             }
-            if(event.values[0] <= 1.0 && event.values[0] >=-1.0){
+            if(x_centrado && z_centrado){
                 borrado=0
                 guardado=0
+                editado=0
             }
         }
     }
